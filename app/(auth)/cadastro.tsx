@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, StyleSheet, ScrollView, SafeAreaView, KeyboardAvoidingView, Platform } from 'react-native';
+import { View, StyleSheet, ScrollView, SafeAreaView, KeyboardAvoidingView, Platform, ImageBackground } from 'react-native';
 import { CadastroForm } from '../../components/molecules/CadastroForm';
 
 export default function CadastroScreen() {
@@ -10,11 +10,15 @@ export default function CadastroScreen() {
         style={styles.container}
       >
         <ScrollView contentContainerStyle={styles.scrollContent}>
-          <View style={styles.imagePlaceholder}>
+          <ImageBackground 
+            source={require('../../assets/images/background.png')} 
+            style={styles.imagePlaceholder}
+            resizeMode="cover"
+          >
             <View style={styles.card}>
               <CadastroForm />
             </View>
-          </View>
+          </ImageBackground>
         </ScrollView>
       </KeyboardAvoidingView>
     </SafeAreaView>
