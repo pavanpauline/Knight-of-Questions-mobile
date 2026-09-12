@@ -1,79 +1,215 @@
-import { Image } from 'expo-image';
-import { Platform, StyleSheet } from 'react-native';
+import React from 'react';
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  SafeAreaView,
+  StatusBar,
+  ScrollView,
+} from 'react-native';
+import { useRouter } from 'expo-router';
+import { HomeHeader } from '@/components/organisms/HomeHeader';
 
-import { HelloWave } from '@/components/hello-wave';
-import ParallaxScrollView from '@/components/parallax-scroll-view';
-import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
-import { Link } from 'expo-router';
+type NavItem = {
+  label: string;
+  icon: string;
+  route: '/(tabs)/questoes' | '/(tabs)/jogos' | '/(tabs)/decks' | '/(tabs)/relatorios';
+  color: string;
+  borderColor: string;
+  description: string;
+};
+
+const NAV_ITEMS: NavItem[] = [
+  {
+    label: 'QUESTÕES',
+    icon: '⚔️',
+    route: '/(tabs)/questoes',
+    color: '#1D4E89',
+    borderColor: '#3498DB',
+    description: 'Minhas Provas',
+  },
+  {
+    label: 'JOGOS',
+    icon: '🎮',
+    route: '/(tabs)/jogos',
+    color: '#145A32',
+    borderColor: '#27AE60',
+    description: 'Modo Batalha',
+  },
+  {
+    label: 'DECKS',
+    icon: '📚',
+    route: '/(tabs)/decks',
+    color: '#4A235A',
+    borderColor: '#9B59B6',
+    description: 'Meus Flashcards',
+  },
+  {
+    label: 'RELATÓRIOS',
+    icon: '📊',
+    route: '/(tabs)/relatorios',
+    color: '#78281F',
+    borderColor: '#E74C3C',
+    description: 'Meu Desempenho',
+  },
+];
 
 export default function HomeScreen() {
-  return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
-      headerImage={
-        <Image
-          source={require('@/assets/images/partial-react-logo.png')}
-          style={styles.reactLogo}
-        />
-      }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Welcome!</ThemedText>
-        <HelloWave />
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 1: Try it</ThemedText>
-        <ThemedText>
-          Edit <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> to see changes.
-          Press{' '}
-          <ThemedText type="defaultSemiBold">
-            {Platform.select({
-              ios: 'cmd + d',
-              android: 'cmd + m',
-              web: 'F12',
-            })}
-          </ThemedText>{' '}
-          to open developer tools.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <Link href="/modal">
-          <ThemedText type="subtitle">Step 2: Explore</ThemedText>
-        </Link>
+  const router = useRouter();
 
-        <ThemedText>
-          {`Tap the Explore tab to learn more about what's included in this starter app.`}
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-        <ThemedText>
-          {`When you're ready, run `}
-          <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText> to get a fresh{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> directory. This will move the current{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> to{' '}
-          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
-        </ThemedText>
-      </ThemedView>
-    </ParallaxScrollView>
+  return (
+    <SafeAreaView style={styles.safeArea}>
+      <StatusBar barStyle="light-content" backgroundColor="#2B4A34" />
+      <HomeHeader />
+
+      <ScrollView contentContainerStyle={styles.scrollContent}>
+        {/* Welcome banner */}
+        <View style={styles.banner}>
+          <Text style={styles.bannerText}>⚔️  Bem-vindo de volta, Cavaleiro!</Text>
+          <Text style={styles.bannerSub}>Escolha sua batalha de hoje</Text>
+        </View>
+
+        {/* 2x2 Grid */}
+        <View style={styles.grid}>
+          {NAV_ITEMS.map((item) => (
+            <TouchableOpacity
+              key={item.route}
+              style={[styles.card, { backgroundColor: item.color, borderColor: item.borderColor }]}
+              onPress={() => router.push(item.route)}
+              activeOpacity={0.8}
+            >
+              <Text style={styles.cardIcon}>{item.icon}</Text>
+              <Text style={styles.cardLabel}>{item.label}</Text>
+              <Text style={styles.cardDesc}>{item.description}</Text>
+              <View style={[styles.cardAccent, { backgroundColor: item.borderColor }]} />
+            </TouchableOpacity>
+          ))}
+        </View>
+
+        {/* Quick stats row */}
+        <View style={styles.quickStats}>
+          <View style={styles.statChip}>
+            <Text style={styles.statChipVal}>🔥 5</Text>
+            <Text style={styles.statChipLabel}>Dias seguidos</Text>
+          </View>
+          <View style={styles.statChip}>
+            <Text style={styles.statChipVal}>⚡ 78%</Text>
+            <Text style={styles.statChipLabel}>Taxa de acerto</Text>
+          </View>
+          <View style={styles.statChip}>
+            <Text style={styles.statChipVal}>🏆 #4</Text>
+            <Text style={styles.statChipLabel}>Ranking</Text>
+          </View>
+        </View>
+      </ScrollView>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  titleContainer: {
+  safeArea: {
+    flex: 1,
+    backgroundColor: '#1A3622',
+  },
+  scrollContent: {
+    padding: 16,
+    paddingBottom: 32,
+  },
+  banner: {
+    backgroundColor: '#243D2B',
+    borderRadius: 12,
+    padding: 16,
+    marginBottom: 20,
+    borderLeftWidth: 4,
+    borderLeftColor: '#FFD700',
+  },
+  bannerText: {
+    fontSize: 15,
+    fontWeight: '900',
+    color: '#FFD700',
+    fontFamily: 'monospace',
+    textShadowColor: '#000',
+    textShadowOffset: { width: 1, height: 1 },
+    textShadowRadius: 2,
+  },
+  bannerSub: {
+    fontSize: 12,
+    color: '#A8CBB8',
+    fontFamily: 'monospace',
+    marginTop: 4,
+  },
+  grid: {
     flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
+    flexWrap: 'wrap',
+    gap: 12,
+    marginBottom: 20,
   },
-  stepContainer: {
-    gap: 8,
-    marginBottom: 8,
+  card: {
+    width: '47.5%',
+    aspectRatio: 1,
+    borderRadius: 16,
+    borderWidth: 2,
+    padding: 16,
+    justifyContent: 'space-between',
+    overflow: 'hidden',
+    elevation: 6,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.4,
+    shadowRadius: 6,
   },
-  reactLogo: {
-    height: 178,
-    width: 290,
+  cardIcon: {
+    fontSize: 36,
+  },
+  cardLabel: {
+    fontSize: 16,
+    fontWeight: '900',
+    color: '#FFD700',
+    fontFamily: 'monospace',
+    textShadowColor: '#000',
+    textShadowOffset: { width: 1, height: 1 },
+    textShadowRadius: 2,
+  },
+  cardDesc: {
+    fontSize: 11,
+    color: '#C8E6C9',
+    fontFamily: 'monospace',
+  },
+  cardAccent: {
+    position: 'absolute',
     bottom: 0,
     left: 0,
-    position: 'absolute',
+    right: 0,
+    height: 4,
+    borderBottomLeftRadius: 14,
+    borderBottomRightRadius: 14,
+  },
+  quickStats: {
+    flexDirection: 'row',
+    gap: 10,
+  },
+  statChip: {
+    flex: 1,
+    backgroundColor: '#243D2B',
+    borderRadius: 10,
+    paddingVertical: 12,
+    paddingHorizontal: 8,
+    alignItems: 'center',
+    borderWidth: 1,
+    borderColor: '#3A5E45',
+  },
+  statChipVal: {
+    fontSize: 14,
+    fontWeight: '900',
+    color: '#FFD700',
+    fontFamily: 'monospace',
+  },
+  statChipLabel: {
+    fontSize: 9,
+    color: '#A8CBB8',
+    fontFamily: 'monospace',
+    marginTop: 4,
+    textAlign: 'center',
   },
 });

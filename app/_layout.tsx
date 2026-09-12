@@ -17,6 +17,9 @@ export default function RootLayout() {
       <Stack initialRouteName="(auth)">
         <Stack.Screen name="(auth)" options={{ headerShown: false }} />
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+        <Stack.Screen name="provas/[provaId]" options={{ headerShown: false }} />
+        <Stack.Screen name="provas/[provaId]/simulado" options={{ headerShown: false }} />
+        <Stack.Screen name="decks/[deckId]" options={{ headerShown: false }} />
         <Stack.Screen name="modal" options={{ presentation: 'modal', title: 'Modal' }} />
       </Stack>
       <StatusBar style="auto" />

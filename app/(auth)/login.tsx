@@ -4,31 +4,37 @@ import { LoginForm } from '../../components/molecules/LoginForm';
 
 export default function LoginScreen() {
   return (
-    <SafeAreaView style={styles.safeArea}>
-      <KeyboardAvoidingView 
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-        style={styles.container}
-      >
-        <ScrollView contentContainerStyle={styles.scrollContent}>
-          <ImageBackground 
-            source={require('../../assets/images/background.png')} 
-            style={styles.imagePlaceholder}
-            resizeMode="cover"
-          >
-            <View style={styles.card}>
-              <LoginForm />
+    <ImageBackground 
+      source={require('../../assets/images/tela_abertura.png')} 
+      style={styles.backgroundImage}
+      resizeMode="cover"
+    >
+      <SafeAreaView style={styles.safeArea}>
+        <KeyboardAvoidingView 
+          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+          style={styles.container}
+        >
+          <ScrollView contentContainerStyle={styles.scrollContent}>
+            <View style={styles.cardContainer}>
+              <View style={styles.card}>
+                <LoginForm />
+              </View>
             </View>
-          </ImageBackground>
-        </ScrollView>
-      </KeyboardAvoidingView>
-    </SafeAreaView>
+          </ScrollView>
+        </KeyboardAvoidingView>
+      </SafeAreaView>
+    </ImageBackground>
   );
 }
 
 const styles = StyleSheet.create({
+  backgroundImage: {
+    flex: 1,
+    width: '100%',
+    height: '100%',
+  },
   safeArea: {
     flex: 1,
-    backgroundColor: '#73B8A2', 
   },
   container: {
     flex: 1,
@@ -36,9 +42,8 @@ const styles = StyleSheet.create({
   scrollContent: {
     flexGrow: 1,
   },
-  imagePlaceholder: {
+  cardContainer: {
     flex: 1,
-    backgroundColor: '#4A90E2', 
     justifyContent: 'center',
     alignItems: 'center',
     padding: 16,
@@ -46,13 +51,15 @@ const styles = StyleSheet.create({
   card: {
     width: '100%',
     maxWidth: 400,
-    backgroundColor: '#F5F5F5',
-    borderRadius: 8,
+    backgroundColor: '#2B4A34',
+    borderRadius: 16,
     padding: 24,
+    borderWidth: 2,
+    borderColor: '#FFD700',
     shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
+    shadowOffset: { width: 0, height: 6 },
+    shadowOpacity: 0.5,
+    shadowRadius: 10,
+    elevation: 10,
   },
 });
